@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { createRoot } from "react-dom/client";
 import AppHeader from "./components/app-header";
 import TaskList from "./components/task-list";
-import NewTaskForm from "./new-task-form";
+import NewTaskForm from "./components/new-task-form";
 import Footer from "./components/footer";
 
 class App extends Component {

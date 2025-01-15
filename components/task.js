@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 
 class Task extends Component {
-  state = {
-    complited: false,
-  };
-  taskDone = () => {
-    this.setState((state) => {
-      return { complited: !state.complited };
-    });
-  };
   render() {
-    const { lable, time, id, onDelete } = this.props;
-    const { complited } = this.state;
+    const { lable, time, id, onDelete, onToggleComplited, complited } =
+      this.props;
+
     let clasName = "";
-    if (complited) {
+
+    if (complited === true) {
       clasName = "completed";
     }
     return (
@@ -21,7 +15,7 @@ class Task extends Component {
         <div className="view">
           <input className="toggle" type="checkbox"></input>
           <label>
-            <span className="description" onClick={this.taskDone}>
+            <span className="description" onClick={onToggleComplited}>
               {lable}
             </span>
             <span className="created">{time}</span>

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { createRoot } from "react-dom/client";
+import { formatDistanceToNow } from "date-fns";
+import PropTypes from "prop-types";
 import AppHeader from "./components/app-header";
 import TaskList from "./components/task-list";
 import NewTaskForm from "./components/new-task-form";
@@ -7,26 +9,51 @@ import Footer from "./components/footer";
 
 class App extends Component {
   maxId = 100;
+  static defaultProps = {
+    filtered: "all",
+  };
+  static propTypes = {
+    filtered: PropTypes.string,
+    /*(props, propsName, componentName) => {
+      const value = props[propsName];
+      if (typeof value === "number" && !isNaN(value)) {
+        return null;
+      } else {
+        return new TypeError(
+          `${componentName}:${propsName} должен быть числом`
+        );
+      }
+    },*/
+  };
 
   state = {
     todoData: [
-      this.createTodoItem("Completed task"),
-      this.createTodoItem("Editing task"),
-      this.createTodoItem("Active task"),
+      this.createTodoItem(
+        "Completed task",
+        formatDistanceToNow(new Date(2025, 0, 16))
+      ),
+      this.createTodoItem(
+        "Editing task",
+        formatDistanceToNow(new Date(2025, 0, 16))
+      ),
+      this.createTodoItem(
+        "Active task",
+        formatDistanceToNow(new Date(2025, 0, 16))
+      ),
     ],
     newTodo: [],
   };
-  createTodoItem(label) {
+  createTodoItem(label, time) {
     return {
       label,
       complited: false,
       id: this.maxId++,
       filtered: "all",
-      time: "created 5 minutes ago",
+      time,
     };
   }
-  addItem = (text) => {
-    const newItem = this.createTodoItem(text);
+  addItem = (text, time) => {
+    const newItem = this.createTodoItem(text, time);
     this.setState(({ todoData }) => {
       const newArr = [...todoData, newItem];
       return {

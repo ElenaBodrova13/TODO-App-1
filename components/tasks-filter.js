@@ -14,10 +14,17 @@ export default class TaskFilter extends Component {
     this.props.filter();
   };
   render() {
+    let clasName = "";
+
+    if (this.props.filtered === "all") {
+      clasName = "selected";
+    } else {
+      clasName = "";
+    }
     return (
       <ul className="filters">
         <li>
-          <button className="selected" onClick={this.all}>
+          <button className={clasName} onClick={this.all}>
             All
           </button>
         </li>

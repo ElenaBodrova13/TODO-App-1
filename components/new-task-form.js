@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-
+import { formatDistanceToNow } from "date-fns";
 class NewTaskForm extends Component {
   state = {
     label: "",
+    time: "",
   };
 
   onEnter = (e) => {
     if (e.key === "Enter") {
-      this.props.addItem(this.state.label);
+      this.props.addItem(this.state.label, this.state.time);
       this.setState({
         label: "",
       });
@@ -16,8 +17,10 @@ class NewTaskForm extends Component {
   onLabelCange = (e) => {
     this.setState({
       label: e.target.value,
+      time: formatDistanceToNow(new Date()).toString(),
     });
   };
+
   render() {
     return (
       <input

@@ -1,33 +1,42 @@
-import React, { Component } from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
-class Task extends Component {
-  render() {
-    const { lable, time, id, onDelete, onToggleComplited, complited } =
-      this.props;
+function Task(props) {
+  const { label, time, id, onDelete, onToggleComplited, complited } = props
 
-    let clasName = "";
+  let clasName = ''
 
-    if (complited === true) {
-      clasName = "completed";
-    }
-    return (
-      <li key={id} className={clasName}>
-        <div className="view">
-          <input className="toggle" type="checkbox"></input>
-          <label>
-            <span className="description" onClick={onToggleComplited}>
-              {lable}
-            </span>
-            <span className="created">{time}</span>
-          </label>
-          <button className="icon icon-edit"></button>
-          <button className="icon icon-destroy" onClick={onDelete}></button>
-        </div>
-      </li>
-    );
+  if (complited === true) {
+    clasName = 'completed'
   }
+
+  return (
+    <li key={id} className={clasName}>
+      <div className="view">
+        <input className="toggle" type="checkbox" id="first" />
+        <label htmlFor="first">
+          <span className="description" role="presentation" onClick={onToggleComplited}>
+            {label}
+          </span>
+          <span className="created">{time}</span>
+        </label>
+        <button type="button" className="icon icon-edit" aria-label="icon-edit" />
+        <button type="button" className="icon icon-destroy" aria-label="icon-destroy" onClick={onDelete} />
+      </div>
+    </li>
+  )
+}
+Task.defaultProps = {
+  label: 'New task',
+  complited: false,
 }
 
-export default Task;
+Task.propTypes = {
+  label: PropTypes.string,
+  complited: PropTypes.bool,
+
+  onDelete: PropTypes.func.isRequired,
+}
+export default Task
 
 /* <span style={style}> {lable}</span> */

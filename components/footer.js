@@ -1,35 +1,39 @@
-import React, { Component } from "react";
-import TaskFilter from "./tasks-filter";
+import React, { Component } from 'react'
+
+import TaskFilter from './tasks-filter'
 
 class Footer extends Component {
   allDeletedChus = () => {
-    this.props.deletComplited();
-  };
+    const { deletComplited } = this.props
+    deletComplited()
+  }
+
   render() {
+    const { activ, filter, complit, allchosen, activchosen, todoData } = this.props
     return (
       <footer className="footer">
-        <span className="todo-count">{this.props.activ} items left</span>
+        <span className="todo-count">{activ} items left</span>
         <TaskFilter
           filter={() => {
-            this.props.filter();
+            filter()
           }}
           complit={() => {
-            this.props.complit();
+            complit()
           }}
           allchosen={() => {
-            this.props.allchosen();
+            allchosen()
           }}
           activchosen={() => {
-            this.props.activchosen();
+            activchosen()
           }}
-          todoData={this.props.todoData}
+          todoData={todoData}
         />
-        <button className="clear-completed" onClick={this.allDeletedChus}>
+        <button type="button" className="clear-completed" onClick={this.allDeletedChus}>
           Clear completed
         </button>
       </footer>
-    );
+    )
   }
 }
 
-export default Footer;
+export default Footer

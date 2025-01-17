@@ -1,170 +1,159 @@
-import React, { Component } from "react";
-import { createRoot } from "react-dom/client";
-import { formatDistanceToNow } from "date-fns";
-import PropTypes from "prop-types";
-import AppHeader from "./components/app-header";
-import TaskList from "./components/task-list";
-import NewTaskForm from "./components/new-task-form";
-import Footer from "./components/footer";
+import React, { Component } from 'react'
+import { createRoot } from 'react-dom/client'
+import { formatDistanceToNow } from 'date-fns'
+
+import AppHeader from './components/app-header'
+import TaskList from './components/task-list'
+import NewTaskForm from './components/new-task-form'
+import Footer from './components/footer'
 
 class App extends Component {
-  maxId = 100;
-  static defaultProps = {
-    filtered: "all",
-  };
-  static propTypes = {
-    filtered: PropTypes.string,
-    /*(props, propsName, componentName) => {
-      const value = props[propsName];
-      if (typeof value === "number" && !isNaN(value)) {
-        return null;
-      } else {
-        return new TypeError(
-          `${componentName}:${propsName} должен быть числом`
-        );
-      }
-    },*/
-  };
+  maxId = 100
 
   state = {
     todoData: [
-      this.createTodoItem(
-        "Completed task",
-        formatDistanceToNow(new Date(2025, 0, 16))
-      ),
-      this.createTodoItem(
-        "Editing task",
-        formatDistanceToNow(new Date(2025, 0, 16))
-      ),
-      this.createTodoItem(
-        "Active task",
-        formatDistanceToNow(new Date(2025, 0, 16))
-      ),
+      this.createTodoItem('Completed task', formatDistanceToNow(new Date(2025, 0, 16))),
+      this.createTodoItem('Editing task', formatDistanceToNow(new Date(2025, 0, 16))),
+      this.createTodoItem('Active task', formatDistanceToNow(new Date(2025, 0, 16))),
     ],
     newTodo: [],
-  };
-  createTodoItem(label, time) {
-    return {
-      label,
-      complited: false,
-      id: this.maxId++,
-      filtered: "all",
-      time,
-    };
   }
+
   addItem = (text, time) => {
-    const newItem = this.createTodoItem(text, time);
+    const newItem = this.createTodoItem(text, time)
     this.setState(({ todoData }) => {
-      const newArr = [...todoData, newItem];
+      const newArr = [...todoData, newItem]
       return {
         todoData: newArr,
-      };
-    });
-  };
+      }
+    })
+  }
+
   onDelete = (id) => {
     this.setState(({ todoData }) => {
-      const ind = todoData.findIndex((el) => el.id === id);
-      const newArr = todoData.toSpliced(ind, 1);
+      const ind = todoData.findIndex((el) => el.id === id)
+      const newArr = todoData.toSpliced(ind, 1)
       return {
         todoData: newArr,
-      };
-    });
-  };
+      }
+    })
+  }
 
   onToggleComplited = (id) => {
     this.setState(({ todoData }) => {
-      const ind = todoData.findIndex((el) => el.id === id);
-      const oldItem = todoData[ind];
-      const newItem = JSON.parse(JSON.stringify(oldItem));
-      newItem.complited = !oldItem.complited;
+      const ind = todoData.findIndex((el) => el.id === id)
+      const oldItem = todoData[ind]
+      const newItem = JSON.parse(JSON.stringify(oldItem))
+      newItem.complited = !oldItem.complited
 
-      const newArray = todoData.toSpliced(ind, 1, newItem);
+      const newArray = todoData.toSpliced(ind, 1, newItem)
 
       return {
         todoData: newArray,
-      };
-    });
-  };
+      }
+    })
+  }
+
   allchosen = () => {
     this.setState(({ todoData }) => {
-      const newItem = JSON.parse(JSON.stringify(todoData));
+      const newItem = JSON.parse(JSON.stringify(todoData))
 
-      newItem.forEach((element) => (element.filtered = "all"));
-      return { todoData: newItem };
-    });
-  };
+      newItem.forEach((element) => {
+        element.filtered = 'all'
+      })
+      return { todoData: newItem }
+    })
+  }
+
   complit = () => {
     this.setState(({ todoData }) => {
-      const newItem = JSON.parse(JSON.stringify(todoData));
+      const newItem = JSON.parse(JSON.stringify(todoData))
 
-      newItem.forEach((element) => (element.filtered = "complited"));
-      return { todoData: newItem };
-    });
-  };
+      newItem.forEach((el) => {
+        el.filtered = 'complited'
+      })
+      return { todoData: newItem }
+    })
+  }
+
   activchosen = () => {
     this.setState(({ todoData }) => {
-      const newItem = JSON.parse(JSON.stringify(todoData));
+      const newItem = JSON.parse(JSON.stringify(todoData))
 
-      newItem.forEach((element) => (element.filtered = "activ"));
-      return { todoData: newItem };
-    });
-  };
+      newItem.forEach((element) => {
+        element.filtered = 'activ'
+      })
+      return { todoData: newItem }
+    })
+  }
 
   deletComplited = () => {
     this.setState(({ todoData }) => {
-      const newTodo = JSON.parse(JSON.stringify(todoData));
-      let newArr;
-      newArr = newTodo.filter((el) => !el.complited);
-      return { todoData: newArr };
-    });
-  };
+      const newTodo = JSON.parse(JSON.stringify(todoData))
+
+      const newArr = newTodo.filter((el) => !el.complited)
+      return { todoData: newArr }
+    })
+  }
+
   filter = () => {
     this.setState(({ todoData }) => {
-      const newTodo = JSON.parse(JSON.stringify(todoData));
-      let newArr;
+      const newTodo = JSON.parse(JSON.stringify(todoData))
+      let newArr
       newTodo.forEach((element) => {
-        if (element.filtered === "all") {
-          newArr = todoData;
+        if (element.filtered === 'all') {
+          newArr = todoData
 
-          return newArr;
+          return newArr
         }
-        if (element.filtered === "complited") {
-          newArr = newTodo.filter((el) => el.complited);
+        if (element.filtered === 'complited') {
+          newArr = newTodo.filter((el) => el.complited)
 
-          return newArr;
+          return newArr
         }
-        if (element.filtered === "activ") {
-          newArr = newTodo.filter((el) => !el.complited);
-          return newArr;
+        if (element.filtered === 'activ') {
+          newArr = newTodo.filter((el) => !el.complited)
+          return newArr
         }
-      });
-      return { newTodo: newArr };
-    });
-  };
+        return newArr
+      })
+      return { newTodo: newArr }
+    })
+  }
+
   chusTodo = (todoData, newTodo) => {
-    if (todoData[0].filtered === "all") {
-      return todoData;
-    } else {
-      return newTodo;
+    if (todoData[0].filtered === 'all') {
+      return todoData
     }
-  };
-  render() {
-    const todos = this.chusTodo(this.state.todoData, this.state.newTodo);
+    return newTodo
+  }
 
-    const todoComplited = this.state.todoData.filter(
-      (el) => el.complited
-    ).length;
-    const activ = this.state.todoData.length - todoComplited;
+  createTodoItem(label, time) {
+    let taskId = this.maxId
+    taskId += 1
+    this.maxId = taskId
+    return {
+      label,
+      complited: false,
+      id: taskId,
+      filtered: 'all',
+      time,
+    }
+  }
+
+  render() {
+    const { todoData, newTodo } = this.state
+
+    const todos = this.chusTodo(todoData, newTodo)
+
+    const todoComplited = todoData.filter((el) => el.complited).length
+    const activ = todoData.length - todoComplited
     return (
       <div className="todoapp">
         <AppHeader />
-        <NewTaskForm todos={this.state.todoData} addItem={this.addItem} />
+        <NewTaskForm todos={todoData} addItem={this.addItem} />
         <section className="main">
-          <TaskList
-            todos={todos}
-            onDelete={this.onDelete}
-            onToggleComplited={this.onToggleComplited}
-          />
+          <TaskList todos={todos} onDelete={this.onDelete} onToggleComplited={this.onToggleComplited} />
         </section>
 
         <Footer
@@ -172,18 +161,18 @@ class App extends Component {
           activ={activ}
           filter={this.filter}
           allchosen={this.allchosen}
-          todos={this.state.todoData}
+          todos={todoData}
           complit={this.complit}
           activchosen={this.activchosen}
           deletComplited={this.deletComplited}
           onAllDell={this.onAllDell}
         />
       </div>
-    );
+    )
   }
 }
-const el = <App />;
+const el = <App />
 
-const container = document.getElementById("root");
-const root = createRoot(container);
-root.render(el);
+const container = document.getElementById('root')
+const root = createRoot(container)
+root.render(el)

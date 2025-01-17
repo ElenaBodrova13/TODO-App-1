@@ -1,40 +1,72 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class TaskFilter extends Component {
   all = () => {
-    this.props.allchosen();
-    this.props.filter();
-  };
-  compliting = () => {
-    this.props.complit();
-    this.props.filter();
-  };
-  active = () => {
-    this.props.activchosen();
-    this.props.filter();
-  };
-  render() {
-    let clasName = "";
+    const { allchosen, filter } = this.props
+    allchosen()
+    filter()
+  }
 
-    if (this.props.filtered === "all") {
-      clasName = "selected";
+  compliting = () => {
+    const { complit, filter } = this.props
+    complit()
+    filter()
+  }
+
+  active = () => {
+    const { activchosen, filter } = this.props
+    activchosen()
+    filter()
+  }
+
+  render() {
+    const { filtered } = this.props
+
+    let clasName = ''
+
+    if (filtered === 'all') {
+      clasName = 'selected'
     } else {
-      clasName = "";
+      clasName = ''
     }
     return (
       <ul className="filters">
         <li>
-          <button className={clasName} onClick={this.all}>
+          <button type="button" className={clasName} onClick={this.all}>
             All
           </button>
         </li>
         <li>
-          <button onClick={this.active}>Active</button>
+          <button type="button" onClick={this.active}>
+            Active
+          </button>
         </li>
         <li>
-          <button onClick={this.compliting}>Completed</button>
+          <button type="button" onClick={this.compliting}>
+            Completed
+          </button>
         </li>
       </ul>
-    );
+    )
   }
+}
+TaskFilter.defaultProps = {
+  filtered: '',
+  filter: () => {},
+}
+
+TaskFilter.propTypes = {
+  filtered: PropTypes.string,
+  filter: PropTypes.func,
+  /* (props, propsName, componentName) => {
+    const value = props[propsName];
+    if (typeof value === "number" && !isNaN(value)) {
+      return null;
+    } else {
+      return new TypeError(
+        `${componentName}:${propsName} должен быть числом`
+      );
+    }
+  }, */
 }

@@ -45,6 +45,7 @@ class App extends Component {
       const oldItem = todoData[ind]
       const newItem = JSON.parse(JSON.stringify(oldItem))
       newItem.complited = !oldItem.complited
+      newItem.cheked = !oldItem.cheked
 
       const newArray = todoData.toSpliced(ind, 1, newItem)
 
@@ -138,6 +139,7 @@ class App extends Component {
       id: taskId,
       filtered: 'all',
       time,
+      cheked: false,
     }
   }
 

@@ -2,19 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function Task(props) {
-  const { label, time, id, onDelete, onToggleComplited, complited } = props
+  const { label, time, id, onDelete, onToggleComplited, complited, cheked } = props
 
   let clasName = ''
 
   if (complited === true) {
     clasName = 'completed'
   }
-
+  let chek
+  if (cheked) chek = true
   return (
     <li key={id} className={clasName}>
       <div className="view">
-        <input className="toggle" type="checkbox" id="first" />
-        <label htmlFor="first">
+        <input className="toggle" type="checkbox" id={id} checked={chek} />
+        <label htmlFor={id}>
           <span className="description" role="presentation" onClick={onToggleComplited}>
             {label}
           </span>

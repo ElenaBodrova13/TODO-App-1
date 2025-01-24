@@ -10,11 +10,20 @@ class NewTaskForm extends Component {
   }
 
   onEnter = (e) => {
-    const { addItem } = this.props
+    const { todos, addItem, editItem } = this.props
     const { label, time } = this.state
-
     if (e.key === 'Enter') {
-      addItem(label, time)
+      const even = (el) => el.edit === true
+      const flag = todos.some(even)
+
+      if (flag) {
+        const ind = todos.find((el) => el.edit)
+        const idEl = ind.id
+
+        editItem(idEl, label, time)
+      } else {
+        addItem(label, time)
+      }
       this.setState({
         label: '',
       })

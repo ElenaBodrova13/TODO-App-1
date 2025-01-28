@@ -39,13 +39,28 @@ class App extends Component {
     })
   }
 
+  onChecked = (id) => {
+    this.setState(({ todoData }) => {
+      const ind = todoData.findIndex((el) => el.id === id)
+      const oldItem = todoData[ind]
+      const newItem = JSON.parse(JSON.stringify(oldItem))
+
+      newItem.cheked = !oldItem.cheked
+
+      const newArray = todoData.toSpliced(ind, 1, newItem)
+
+      return {
+        todoData: newArray,
+      }
+    })
+  }
+
   onToggleComplited = (id) => {
     this.setState(({ todoData }) => {
       const ind = todoData.findIndex((el) => el.id === id)
       const oldItem = todoData[ind]
       const newItem = JSON.parse(JSON.stringify(oldItem))
       newItem.complited = !oldItem.complited
-      newItem.cheked = !oldItem.cheked
 
       const newArray = todoData.toSpliced(ind, 1, newItem)
 
@@ -145,14 +160,13 @@ class App extends Component {
     return newTodo
   }
 
-  editItem = (id, text, time) => {
+  editItem = (id, text) => {
     this.setState(({ todoData }) => {
       const ind = todoData.findIndex((el) => el.id === id)
       const oldItem = todoData[ind]
       const newItem = JSON.parse(JSON.stringify(oldItem))
       newItem.label = text
       newItem.edit = false
-      newItem.time = time
 
       const newArray = todoData.toSpliced(ind, 1, newItem)
 
@@ -188,13 +202,15 @@ class App extends Component {
     return (
       <div className="todoapp">
         <AppHeader />
-        <NewTaskForm todos={todoData} addItem={this.addItem} editItem={this.editItem} />
+        <NewTaskForm todos={todoData} addItem={this.addItem} />
         <section className="main">
           <TaskList
             todos={todos}
             onDelete={this.onDelete}
             onToggleComplited={this.onToggleComplited}
             edition={this.edition}
+            editItem={this.editItem}
+            onChecked={this.onChecked}
           />
         </section>
 
